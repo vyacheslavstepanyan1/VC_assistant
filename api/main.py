@@ -81,7 +81,6 @@ async def send_message(messages: List[Message], background_tasks: BackgroundTask
 
     first_chunk = next(response)
     tool_name = func.check_toolcall(first_chunk)
-    
 
     # Check if tool was used
     if tool_name:

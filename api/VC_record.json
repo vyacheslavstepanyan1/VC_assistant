@@ -475,5 +475,13 @@
                 "Series A"
             ]
         }
+    },
+    {
+        "id": 20,
+        "link": "https://foundersfund.com/",
+        "description": "Founders Fund is a venture capital firm with a registered trademark under the name Founders Fund, LLC. The company is built on a philosophy of adaptation, design, and deployment which they infuse in their investment portfolio. They have made notable investments in companies like Anduril, a defense technology firm, and Palantir, a software company known for its data analytics platforms. They pose the thought-provoking question, \"What would you build if you could start over?\" which might hint at their strategy to invest in disruptive, innovative enterprises. While they have an impressive track record, they caution that their past performance is not a guarantee of future results and acknowledge the inherent risk that investments may lose value. They have a strict policy against unsolicited offers to buy securities. \n\nThey also show interest in futuristic concepts such as world-connecting satellite networks and progression beyond distractions, which implies a focus on forward-thinking technologies and ideas. Despite being established in 2005, they maintain a relevant and dynamic presence in the VC world three decades later.",
+        "info": {
+            "name": "Founders Fund"
+        }
     }
 ]
