@@ -74,7 +74,7 @@ async def send_message(messages: List[Message], background_tasks: BackgroundTask
     # Check if tool was used
     if tool_name:
             
-        VC_records = func.read_vc_records()
+        VC_records = await func.read_vc_records()
 
         if tool_name == 'parse_link':
             link = ''

@@ -86,7 +86,6 @@ To be able to run the application you will need to create and environment .env i
 OPENAI_API_KEY = 'YOUR API KEY HERE'
 PINECONE_API_KEY = 'YOUR API KEY HERE'
 
-
 ```
 
 

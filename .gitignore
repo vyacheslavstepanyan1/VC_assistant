@@ -4,3 +4,4 @@ node_modules
 .env
 client/node_modules/.cache/default-development
 tests.ipynb
+initial_fill*
