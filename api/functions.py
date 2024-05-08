@@ -133,7 +133,7 @@ def get_text_links(link):
     else:
         raise Exception(f"Site not found on {link}")
 
-def find_info(text):
+async def find_info(text):
     messages = []
     messages.append({"role": "system", "content": "Find information about VC. Find VC name, contacts, industries that they invest in, investment rounds that they participate/lead. Don't make assumptions."})
     messages.append({"role": "user", "content": text})

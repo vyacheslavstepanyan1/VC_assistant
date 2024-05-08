@@ -10,6 +10,10 @@ from DLAIUtils import Utils
 import functions as func
 import json
 from dotenv import load_dotenv
+import aiofiles
+import subprocess
+
+subprocess.call(["python3", "db_init.py"], shell=False)
 
 load_dotenv()
 
@@ -62,11 +66,6 @@ class Message(BaseModel):
     content: str
 
 
-def stream_text(text):
-    for letter in str(text): 
-        yield letter
-
-
 # Send message to GPT, communication logic
 @app.post("/message")
 async def send_message(messages: List[Message], background_tasks: BackgroundTasks):
@@ -84,6 +83,9 @@ async def send_message(messages: List[Message], background_tasks: BackgroundTask
 
     # Check if tool was used
     if tool_name:
+            
+        async with aiofiles.open('data/VC_record.json', 'r') as f:
+            VC_records = json.loads(await f.read())
 
         if tool_name == 'parse_link':
             link = ''
@@ -95,10 +97,6 @@ async def send_message(messages: List[Message], background_tasks: BackgroundTask
             link_data = json.loads(link)
             link = link_data['link']
 
-            # Open records and check if link in records
-            VC_json = open('VC_record.json', 'r')
-            VC_records = json.load(VC_json)
-            VC_json.close()
             for record in VC_records:
                 if record['link'] == link:
                     VC_info = record['info']
@@ -118,7 +116,7 @@ async def send_message(messages: List[Message], background_tasks: BackgroundTask
                 return response
             
             # Extract information. Write to local record and vectorDB.
-            response = func.find_info(text)
+            response = await func.find_info(text)
             VC_info = response.choices[0].message.tool_calls[0].function.arguments
             
             # Generate better description and write to DB and records on background to minimize response delay
@@ -141,15 +139,12 @@ async def send_message(messages: List[Message], background_tasks: BackgroundTask
                         name += argument
             name_data = json.loads(name)
             name = name_data['name']
-            VC_json = open('VC_record.json', 'r')
-            VC_records = json.load(VC_json)
 
             # Open records and check if link in records
             for record in VC_records:
                 if record['info']['name'].replace(" ", "").lower() == name.replace(" ", "").lower():
                     VC_info = record['info']
                     VC_id = str(record['id'])
-                    # VC_emb = index.fetch(ids=VC_id)
                     matches = func.get_similar(id = VC_id, top_k = 4)
                     matches = matches['matches'][1:]
                     sim_names = [match['metadata']['name'] for match in matches]

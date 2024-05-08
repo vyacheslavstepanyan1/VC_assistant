@@ -77,5 +77,21 @@ docker-compose up
 
 ```
 
+### Environemnt
+To be able to run the application you will need to create and environment .env in api folder.
+
+
+```bash
+
+OPENAI_API_KEY = 'YOUR API KEY HERE'
+PINECONE_API_KEY = 'YOUR API KEY HERE'
+
+
+```
+
+
 After these steps either for local or docker, the application is available to be used locally on http://localhost:3000
 Also you can see the backend on http://localhost:8000 and check FastAPI on http://localhost:3000/#docs
+
+### P.S.
+You may find some unnecessary functions defined. Those are for future work.
