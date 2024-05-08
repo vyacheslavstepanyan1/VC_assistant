@@ -259,3 +259,8 @@ async def write_record(record_id, link, text, VC_info, index):
 
     with open("VC_record.json", "w") as VC_json:
         json.dump(VC_records, VC_json, indent=4)
+
+async def read_vc_records():
+    with open('data/VC_record.json', 'r') as f:
+        VC_records = json.load(f)
+    return VC_records

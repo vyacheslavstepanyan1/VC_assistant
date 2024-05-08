@@ -10,10 +10,9 @@ from DLAIUtils import Utils
 import functions as func
 import json
 from dotenv import load_dotenv
-import aiofiles
-import subprocess
+import db_init
 
-subprocess.call(["python3", "db_init.py"], shell=False)
+index = db_init.main_init()
 
 load_dotenv()
 
@@ -28,15 +27,6 @@ utils = Utils()
 
 openai_client = OpenAI(api_key=envs.openai_api_key)
 pinecone = Pinecone(api_key=envs.pinecone_api_key)
-
-INDEX_NAME = utils.create_dlai_index_name('vc')
-if INDEX_NAME in [index.name for index in pinecone.list_indexes()]:
-  index = pinecone.Index(INDEX_NAME)
-else:
-  pinecone.create_index(name=INDEX_NAME, dimension=1536, metric='cosine',
-    spec=ServerlessSpec(cloud='aws', region='us-east-1'))
-  index = pinecone.Index(INDEX_NAME)
-
 
 tools = func.tools
 
@@ -84,8 +74,7 @@ async def send_message(messages: List[Message], background_tasks: BackgroundTask
     # Check if tool was used
     if tool_name:
             
-        async with aiofiles.open('data/VC_record.json', 'r') as f:
-            VC_records = json.loads(await f.read())
+        VC_records = func.read_vc_records()
 
         if tool_name == 'parse_link':
             link = ''

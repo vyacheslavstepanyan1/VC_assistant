@@ -18,5 +18,7 @@ COPY . .
 # Make port 8000 available for the app
 EXPOSE 8000
 
+ENV PYTHONUNBUFFERED=1
+
 # Define the command to run the application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
